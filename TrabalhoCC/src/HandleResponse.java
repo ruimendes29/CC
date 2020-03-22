@@ -12,11 +12,13 @@ public class HandleResponse implements Runnable {
     }
     public void run()
     {
-        String line;
+        String line="";
         try {
+        while(line!=null){
             line = in.readLine();
                 out.println(line);
                 out.flush();
+        }
         }
         catch (IOException e)
         {

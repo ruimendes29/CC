@@ -26,14 +26,16 @@ public class Connection implements Runnable {
             Socket sServer = new Socket(targetServer,targetPort);
             BufferedReader inServer = new BufferedReader(new InputStreamReader(sServer.getInputStream()));
             PrintWriter outServer = new PrintWriter(s.getOutputStream());
-        while(line!=null && !line.equals("quit"))
-        {
-            line = inCliente.readLine();
-            System.out.println("Teste - "+line);
-            outServer.println(line);
-            outServer.flush();
+            
             new Thread(new HandleResponse(inServer,outCliente)).start();
-        }
+            
+            while(line!=null && !line.equals("quit"))
+            {
+                line = inCliente.readLine();
+                System.out.println("Teste - "+line);
+                outServer.println(line);
+                outServer.flush();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
