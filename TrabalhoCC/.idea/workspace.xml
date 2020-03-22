@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9361a416-6331-4831-a75b-563071038c92" name="Default Changelist" comment="" />
+    <list default="true" id="9361a416-6331-4831-a75b-563071038c92" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Connection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Connection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/HandleResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/HandleResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Server.java" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -14,7 +20,11 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
   <component name="ProjectId" id="1ZFajWtqQ571lqvDH7UZERYaaux" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
@@ -24,6 +34,41 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.AnonGW">
+    <configuration name="AnonGW" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="AnonGW" />
+      <module name="TrabalhoCC" />
+      <option name="PROGRAM_PARAMETERS" value="10.2.2.3 12345 12345" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Server" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Server" />
+      <module name="TrabalhoCC" />
+      <option name="PROGRAM_PARAMETERS" value="10.2.2.3" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.Server" />
+      <item itemvalue="Application.AnonGW" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.AnonGW" />
+        <item itemvalue="Application.Server" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -36,6 +81,9 @@
       <option name="presentableId" value="Default" />
       <updated>1584437430527</updated>
       <workItem from="1584437434687" duration="3922000" />
+      <workItem from="1584876471135" duration="4878000" />
+      <workItem from="1584881939133" duration="158000" />
+      <workItem from="1584887832938" duration="292000" />
     </task>
     <servers />
   </component>
@@ -43,9 +91,41 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="293" y="356" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1584878357111">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="293" y="356" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1584878357111" />
     <state x="768" y="232" width="374" height="570" key="#com.intellij.ide.util.MemberChooser" timestamp="1584437688660">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="768" y="232" width="374" height="570" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1584437688660" />
+    <state width="1878" height="50" key="GridCell.Tab.0.bottom" timestamp="1584881765829">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1878" height="50" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1584881765829" />
+    <state width="1878" height="50" key="GridCell.Tab.0.center" timestamp="1584881765829">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1878" height="50" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1584881765829" />
+    <state width="1878" height="50" key="GridCell.Tab.0.left" timestamp="1584881765829">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1878" height="50" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1584881765829" />
+    <state width="1878" height="50" key="GridCell.Tab.0.right" timestamp="1584881765829">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1878" height="50" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1584881765829" />
+    <state x="421" y="135" key="SettingsEditor" timestamp="1584887933045">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="421" y="135" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1584887933045" />
+    <state x="643" y="347" key="com.intellij.ide.util.TipDialog" timestamp="1584887843486">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="643" y="347" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1584887843486" />
+    <state x="376" y="142" width="1157" height="748" key="new project wizard" timestamp="1584881764550">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="376" y="142" width="1157" height="748" key="new project wizard/0.0.1920.1040@0.0.1920.1040" timestamp="1584881764550" />
   </component>
 </project>

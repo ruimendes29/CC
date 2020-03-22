@@ -14,10 +14,9 @@ public class HandleResponse implements Runnable {
     {
         String line;
         try {
-            do {
-                line = in.readLine();
+            line = in.readLine();
                 out.println(line);
-            } while (line != null);
+                out.flush();
         }
         catch (IOException e)
         {
