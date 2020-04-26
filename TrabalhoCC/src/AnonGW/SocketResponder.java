@@ -10,7 +10,6 @@ public class SocketResponder implements Runnable {
     }
     public void run()
     {
-        int lastPackSent=0;
         DataPack p;
         try {
         OutputStream outStream = this.session.getSocket().getOutputStream();
@@ -18,11 +17,13 @@ public class SocketResponder implements Runnable {
             while(true){
                 this.session.getSessionLock().lock();
                 this.session.getWakeUpCondition().await();
-
-                while((p=session.getPacktoTCP(lastPackSent))!=null){
+                
+                
+                while((p=session.getPacktoTCP(this.session.getLastTCPSent()))!=null){
                     outStream.write(p.getData());
                     outStream.flush();
-                    this.session.removePacktoTCP(lastPackSent);
+                    this.session.removePacktoTCP(this.session.getLastTCPSent());
+                    this.session.updateTCPSent();
                 }
             }
         }

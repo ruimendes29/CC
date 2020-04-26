@@ -10,6 +10,7 @@ public class Session {
     
     private int sessionID;
     private Map <Integer,DataPack> toTCPpacks;
+    private int lastTCPSent;
     private Map <Integer,DataPack> toAnonpacks;
     private ReentrantLock sessionLock;
     private Condition wakeUpCondition;
@@ -21,6 +22,7 @@ public class Session {
 
         this.sessionID = sessionID;
         this.toTCPpacks = new HashMap <Integer,DataPack>();
+        this.lastTCPSent=0;
         this.toAnonpacks = new HashMap <Integer,DataPack>();
         this.sessionLock = new ReentrantLock();
         this.wakeUpCondition = this.sessionLock.newCondition();
@@ -46,6 +48,10 @@ public class Session {
         return this.wakeUpCondition;
     }
 
+    public int getLastTCPSent(){
+        return this.lastTCPSent;
+    }
+
     public String getTargetIP() {
         return this.targetIP;
     }
@@ -58,19 +64,23 @@ public class Session {
         return this.socket;
     }    
 
-    public synchronized DataPack getPacktoTCP(int packID){
+    public void updateTCPSent(){
+        this.lastTCPSent=this.lastTCPSent+1;
+    }
+
+    public DataPack getPacktoTCP(int packID){
         return this.toTCPpacks.get(packID);
     }
 
-    public synchronized void addPacktoTCP(DataPack pack){
+    public void addPacktoTCP(DataPack pack){
         this.toTCPpacks.put(pack.packID, pack);
     }
 
-    public synchronized void addPacktoAnon(DataPack pack){
+    public void addPacktoAnon(DataPack pack){
         this.toTCPpacks.put(pack.packID, pack);
     }
 
-    public synchronized void removePacktoTCP(int packID){
+    public  void removePacktoTCP(int packID){
         this.toTCPpacks.remove(packID);
     }
 
