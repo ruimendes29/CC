@@ -12,9 +12,7 @@ public class AnonGW {
     static String ownServer;
     static int ownPort;
     static ArrayList<String> peers;
-    static Map<Integer,Session> sendSessions;
-    static Map<Integer,Session> receiveSessions;
-
+    static Map<Integer,Session> Sessions;
     
     public static void main(String[] args) {
 
@@ -37,7 +35,11 @@ public class AnonGW {
             ServerSocket ss = new ServerSocket(ownPort);
             
             //Turn on the UDP receiver
-            //new Thread(new ClientConnection(session,targetServer,targetPort)).start();
+            //new Thread(new UDPListener(Sessions()).start();
+
+            //Turn on the UDP Sender
+            //new Thread(new UDPSender(Sessions()).start();
+
            
             //Start Listening for client connections
             while(true)
