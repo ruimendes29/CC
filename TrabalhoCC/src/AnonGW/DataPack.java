@@ -1,15 +1,14 @@
-import java.time.LocalDateTime;
 
 public class DataPack {
     
     public String packType;
     public int sessionID;
     public int packID;
-    public Long timeToResend;
+    public int timeToResend;
     public Long expireTime;
-    public Byte[] data;
+    public byte[] data;
     
-    public DataPack (int sessionID ,int packID, Long timeToResend, Byte[] data){
+    public DataPack (int sessionID ,int packID, int timeToResend, byte[] data){
         
         this.sessionID = sessionID;
         this.packID = packID;
@@ -25,6 +24,10 @@ public class DataPack {
 
     public void refreshTimer(){
         this.expireTime=System.currentTimeMillis()+this.timeToResend;
+    }
+
+    public byte[] getData(){
+        return this.data;
     }
 
 
