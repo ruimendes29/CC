@@ -8,7 +8,7 @@ public class DataPack {
     public Long expireTime;
     public byte[] data;
     
-    public DataPack (int sessionID ,int packID, int timeToResend, byte[] data){
+    public DataPack (String packType,int sessionID ,int packID, int timeToResend, byte[] data){
         
         this.sessionID = sessionID;
         this.packID = packID;

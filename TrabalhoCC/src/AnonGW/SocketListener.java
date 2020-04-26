@@ -24,7 +24,7 @@ public class SocketListener implements Runnable {
                     inputStream.read(b);
 
                     if(b!=null){
-                        p = new DataPack(this.session.getSessionID() ,lastPackAdded, this.resendTimer, b);
+                        p = new DataPack("DATA",this.session.getSessionID() ,lastPackAdded, this.resendTimer, b);
                         this.session.addPacktoAnon(p);
                     }
                 }

@@ -1,10 +1,10 @@
 import java.io.OutputStream;
 
-public class ClientResponder implements Runnable {
+public class SocketResponder implements Runnable {
 
     Session session;
 
-    public ClientResponder(Session s)
+    public SocketResponder(Session s)
     {   
         this.session=s;
     }
