@@ -32,7 +32,7 @@ public class AnonGW {
 
             System.out.println(ownServer);
 
-            //Falta iniciat os peers
+            //Falta iniciar os peers
             peers=new ArrayList<String>();
             ServerSocket ss = new ServerSocket(ownPort);
             
@@ -49,7 +49,6 @@ public class AnonGW {
                 currentSession= new Session(sessionID,socket,peers.get(random),targetPort);
                 Sessions.put(sessionID,currentSession);
                 sessionID++;
-                //
                 new Thread(new ClientConnection(currentSession)).start();
             }
         }

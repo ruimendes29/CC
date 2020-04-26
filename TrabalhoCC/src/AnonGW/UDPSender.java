@@ -1,4 +1,4 @@
 
-public class ResponderAlarm {
+public class UDPSender {
 
 }
