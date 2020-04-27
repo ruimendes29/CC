@@ -9,7 +9,7 @@ public class Server {
             System.out.println("À espera...");
             Socket s = ss.accept();
             System.out.println("Ligou com anon");
-            new Thread(new HandleTCPrequest(s)).start();
+            new Thread(new ServerWorker(s)).start();
         }
     }
 }

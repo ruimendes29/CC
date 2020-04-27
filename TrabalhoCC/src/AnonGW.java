@@ -1,8 +1,5 @@
 import java.io.IOException;
-import java.net.Inet4Address;
-import java.net.InetAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.net.*;
 import java.util.ArrayList;
 
 public class AnonGW {
@@ -18,8 +15,17 @@ public class AnonGW {
             ownServer= Inet4Address.getLocalHost().getHostAddress();
             ownPort=Integer.parseInt(args[2]);
             peers=new ArrayList<>();
-            new Thread(new ListenTCP(peers,ownPort)).start();
-            new Thread(new ListenR3(peers,ownPort,targetServer,targetPort)).start();
+            int r=0;
+            for (int i=3;i<args.length;i++)
+            {
+                peers.add(InetAddress.getByName(args[i]));
+                System.out.println("ADDED "+peers.get(r++));
+            }
+            DatagramSocket socket = new DatagramSocket(6666);
+            System.out.println("Starting TCP Listener...");
+            new Thread(new ListenTCP(peers,ownPort,socket)).start();
+            System.out.println("Starting R3 Listener...");
+            new Thread(new ListenR3(peers,ownPort,targetServer,targetPort,socket)).start();
         }
         catch (IOException e)
         {

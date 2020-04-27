@@ -16,20 +16,14 @@ public class ListenR3 implements Runnable{
     String serverAddress;
     int serverPort;
     private byte[] buf = new byte[256];
-    public ListenR3(ArrayList<InetAddress> peers,int port,String serverAddress,int serverPort)
+    public ListenR3(ArrayList<InetAddress> peers,int port,String serverAddress,int serverPort,DatagramSocket socket)
     {
         this.peers=peers;
         l = new ReentrantLock(true);
         this.port=port;
         this.serverAddress=serverAddress;
         this.serverPort=serverPort;
-        try {
-            socket = new DatagramSocket(6666);
-        }
-        catch (Exception e)
-        {
-            System.out.println(e.getStackTrace());
-        }
+        this.socket=socket;
     }
     @Override
     public void run() {
@@ -67,7 +61,6 @@ public class ListenR3 implements Runnable{
             int port = packet.getPort();
             packet = new DatagramPacket(buf, buf.length, address, port);
             socket.send(packet);
-            socket.close();
         }
         catch (Exception e)
         {

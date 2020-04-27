@@ -10,15 +10,11 @@ public class HandleTCPrequest implements Runnable{
     private InetAddress address;
     private byte[] buf;
 
-    public HandleTCPrequest(Socket s,InetAddress peer)
+    public HandleTCPrequest(Socket s,InetAddress peer,DatagramSocket socket)
     {
         this.s=s;
-        try {
             address = peer;
-            socket = new DatagramSocket(6666,InetAddress.getByName("localhost"));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+            this.socket=socket;
     }
 
     @Override
@@ -41,7 +37,6 @@ public class HandleTCPrequest implements Runnable{
                 socket.receive(packet);
                 r3Packet = new R3Package(new String(packet.getData(),0,packet.getLength()));
             }
-            socket.close();
             if (r3Packet != null);
             {
                 outCliente.println(r3Packet.data);
