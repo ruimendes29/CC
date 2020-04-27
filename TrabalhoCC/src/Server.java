@@ -1,6 +1,3 @@
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -12,7 +9,7 @@ public class Server {
             System.out.println("À espera...");
             Socket s = ss.accept();
             System.out.println("Ligou com anon");
-            new Thread(new ServerWorker(s)).start();
+            new Thread(new HandleTCPrequest(s)).start();
         }
     }
 }
