@@ -26,7 +26,7 @@ public class AnonGW {
             Map<Integer,Session> Sessions=new HashMap<Integer,Session>();
             Session currentSession;
             
-            int sessionID = Integer.parseInt(args[3])*1000000;
+            Integer sessionID = Integer.parseInt(args[3])*1000000;
 
             System.out.println(ownServer);
 

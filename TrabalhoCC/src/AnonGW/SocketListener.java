@@ -26,6 +26,8 @@ public class SocketListener implements Runnable {
                     if(b!=null){
                         p = new DataPack("DATA",this.session.getSessionID() ,lastPackAdded, this.resendTimer, b);
                         this.session.addPacktoAnon(p);
+                        //send immediatly thorough UDP
+                        lastPackAdded++;
                     }
                 }
         }
