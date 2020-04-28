@@ -15,6 +15,7 @@ public class ListenR3 implements Runnable{
     DatagramSocket socket;
     String serverAddress;
     int serverPort;
+    InetAddress peerAddress;
     private byte[] buf = new byte[256];
     public ListenR3(ArrayList<InetAddress> peers,int port,String serverAddress,int serverPort,DatagramSocket socket)
     {
@@ -33,38 +34,50 @@ public class ListenR3 implements Runnable{
             socket.receive(packet);
             String received=new String(packet.getData(), 0, packet.getLength());
             R3Package r3Package = new R3Package(received);
+            Socket s;
             switch (r3Package.tipo)
             {
                 case "GET":
-                    Socket s = new Socket(serverAddress,serverPort);
-                    System.out.println("Ligação Estabelecida");
-                    String line = " ";
+                    s = new Socket(serverAddress,serverPort);
                     String response;
-                    BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
                     PrintWriter out = new PrintWriter(System.out);
                     BufferedReader inSocket = new BufferedReader((new InputStreamReader(s.getInputStream())));
                     PrintWriter outSocket = new PrintWriter(s.getOutputStream());
-                        out.println("Entrou aqui!");
+                        out.println("Entrou no ANONGW peer!");
                         out.flush();
-                        out.println("Teste - "+r3Package.toString());
+                        out.println("String Recebida:"+r3Package.toString());
                         out.flush();
                         outSocket.println(r3Package.toString());
                         outSocket.flush();
                         response=inSocket.readLine();
-                        out.println(response);
+                        out.println("Resposta a enviar ANONGW peer: "+response);
                         out.flush();
                         s.close();
                         buf = response.getBytes();
+                    peerAddress = packet.getAddress();
+                    packet = new DatagramPacket(buf, buf.length, peerAddress, 6666);
+                    socket.send(packet);
+                    out.println("Saiu pacote para o ANONGW peer");
+                    out.flush();
                         break;
+                case "DATA":
+                    s = new Socket(r3Package.clientAddress,12345);
+                    PrintWriter out2 = new PrintWriter(System.out);
+                    PrintWriter outSocket2 = new PrintWriter(s.getOutputStream());
+                    out2.println("Pronto para Ligar ao TCP do Client");
+                    out2.flush();
+                    out2.println("String Recebida:"+r3Package.toString());
+                    out2.flush();
+                    outSocket2.println(r3Package.toString());
+                    outSocket2.flush();
+                    s.close();
+                    break;
+
             }
-            InetAddress address = packet.getAddress();
-            int port = packet.getPort();
-            packet = new DatagramPacket(buf, buf.length, address, port);
-            socket.send(packet);
         }
         catch (Exception e)
         {
-            System.out.println(e.getStackTrace());
+            System.out.println(e.getMessage());
         }
     }
 

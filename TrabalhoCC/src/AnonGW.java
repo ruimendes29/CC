@@ -1,6 +1,9 @@
 import java.io.IOException;
 import java.net.*;
 import java.util.ArrayList;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class AnonGW {
     static String targetServer;
@@ -22,8 +25,9 @@ public class AnonGW {
                 System.out.println("ADDED "+peers.get(r++));
             }
             DatagramSocket socket = new DatagramSocket(6666);
+            ServerSocket ss = new ServerSocket(ownPort);
             System.out.println("Starting TCP Listener...");
-            new Thread(new ListenTCP(peers,ownPort,socket)).start();
+            new Thread(new ListenTCP(peers,ownPort,socket,ss)).start();
             System.out.println("Starting R3 Listener...");
             new Thread(new ListenR3(peers,ownPort,targetServer,targetPort,socket)).start();
         }

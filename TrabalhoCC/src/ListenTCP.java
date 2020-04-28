@@ -5,13 +5,17 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
 
 public class ListenTCP implements Runnable{
     ArrayList<InetAddress> peers;
     int port;
     DatagramSocket socket;
-    public ListenTCP(ArrayList<InetAddress> peers,int port,DatagramSocket socket)
+    ServerSocket ss;
+    public ListenTCP(ArrayList<InetAddress> peers,int port,DatagramSocket socket,ServerSocket ss)
     {
+        this.ss=ss;
         this.peers=peers;
         this.port=port;
         this.socket=socket;
@@ -19,14 +23,12 @@ public class ListenTCP implements Runnable{
     @Override
     public void run() {
         Random r = new Random();
-        ServerSocket ss = null;
         try {
-            ss = new ServerSocket(port);
             while (true)
             {
                 System.out.println("À espera...");
                 Socket s = ss.accept();
-                System.out.println("Ligou com anon");
+                System.out.println("Ligou com Cliente");
                 new Thread(new HandleTCPrequest(s,peers.get(r.nextInt()%peers.size()),socket)).start();
             }
         } catch (IOException e) {

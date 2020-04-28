@@ -16,13 +16,14 @@ public class ServerWorker implements Runnable{
         try {
             BufferedReader inCliente = new BufferedReader(new InputStreamReader(s.getInputStream()));
             PrintWriter outCliente = new PrintWriter(s.getOutputStream());
-            while(line!=null && !line.equals("quit"))
-            {
                 line = inCliente.readLine();
                 System.out.println("Teste - "+line);
-                outCliente.println(line);
-                outCliente.flush();
-            }
+                String [] args = line.split(" ");
+                if (args[0].equals("GET"))
+                {
+                    outCliente.println("DATA "+args[1]+" "+args[3]);
+                    outCliente.flush();
+                }
         } catch (IOException e) {
             e.printStackTrace();
         }
