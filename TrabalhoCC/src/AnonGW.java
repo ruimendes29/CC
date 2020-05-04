@@ -29,7 +29,7 @@ public class AnonGW {
             System.out.println("Starting TCP Listener...");
             new Thread(new ListenTCP(peers,ownPort,socket,ss)).start();
             System.out.println("Starting R3 Listener...");
-            new Thread(new ListenR3(peers,ownPort,targetServer,targetPort,socket)).start();
+            new Thread(new ListenR3(targetServer,targetPort,socket)).start();
         }
         catch (IOException e)
         {

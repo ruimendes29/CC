@@ -21,7 +21,7 @@ public class ServerWorker implements Runnable{
                 String [] args = line.split(" ");
                 if (args[0].equals("GET"))
                 {
-                    outCliente.println("DATA "+args[1]+" "+args[3]);
+                    outCliente.println("DATA "+args[1]+" "+"1"+" "+"1"+" "+args[4]);
                     outCliente.flush();
                 }
         } catch (IOException e) {

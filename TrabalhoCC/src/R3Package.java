@@ -5,7 +5,7 @@ public class R3Package {
     public String data;
     public int numSeq;
     public int totalPacotes;
-    String clientAddress;
+    public String clientAddress;
     public R3Package(String tipo, String data, int numSeq, int totalPacotes,String clientAddress) {
         this.tipo = tipo;
         this.data = data;

@@ -14,9 +14,10 @@ public class ClientTCPListen implements Runnable{
             while (true) {
                 Socket s = ss.accept();
                 BufferedReader inCliente = new BufferedReader(new InputStreamReader(s.getInputStream()));
-                PrintWriter outCliente = new PrintWriter(s.getOutputStream());
                 line = inCliente.readLine();
-                System.out.println("RESPOSTA - " + line);
+                PrintWriter out = new PrintWriter(System.out);
+                out.println("RESPOSTA - " + line);
+                out.flush();
                 s.close();
             }
 
