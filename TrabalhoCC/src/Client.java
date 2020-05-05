@@ -20,9 +20,6 @@ public class Client {
             //response=inSocket.readLine();
             //out.println(response);
             //out.flush();
-            Prods : Prod Prods
-                  |
-                  ;
         }
     }
 }
