@@ -8,25 +8,21 @@ import java.net.Socket;
 public class Client {
     public static void main(String[] args) throws Exception{
         String line = " ";
-        new Thread(new ClientTCPListen()).start();
+        String own = InetAddress.getLocalHost().getHostAddress();
+        int idPedido=1;
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         while (line!=null && !line.equals("exit"))
         {
-            Socket s = new Socket(args[0],Integer.parseInt(args[1]));
-            System.out.println("Ligação Estabelecida");
-            BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-            PrintWriter out = new PrintWriter(System.out);
-            PrintWriter outSocket = new PrintWriter(s.getOutputStream());
-            out.println("Entrou aqui!");
-            out.flush();
             line = in.readLine();
-            out.println("Teste - "+line);
-            out.flush();
-            outSocket.println(line+" "+InetAddress.getLocalHost().getHostAddress());
-            outSocket.flush();
-            s.close();
+            line = line+" "+own+" "+idPedido;
+            new Thread(new ClientTCPThread(line,args[0],Integer.parseInt(args[1]))).start();
+            idPedido++;
             //response=inSocket.readLine();
             //out.println(response);
             //out.flush();
+            Prods : Prod Prods
+                  |
+                  ;
         }
     }
 }

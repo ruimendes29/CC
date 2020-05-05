@@ -5,6 +5,8 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.AbstractMap;
+import java.util.Map;
 
 public class HandleR3Response implements Runnable{
     String serverAddress;
@@ -12,11 +14,13 @@ public class HandleR3Response implements Runnable{
     DatagramPacket packet;
     DatagramSocket socket;
     private byte[] buf = new byte[256];
-    public HandleR3Response(String serverAddress, int serverPort, DatagramSocket socket,DatagramPacket packet)
+    Map<Map.Entry<String,Integer>,Socket> pedidos;
+    public HandleR3Response(String serverAddress, int serverPort, DatagramSocket socket,DatagramPacket packet,Map<Map.Entry<String,Integer>,Socket> pedidos)
     {
         this.serverAddress=serverAddress;
         this.serverPort=serverPort;
         this.packet=packet;
+        this.pedidos=pedidos;
         this.socket=socket;
     }
     @Override
@@ -53,7 +57,8 @@ public class HandleR3Response implements Runnable{
                     out.flush();
                     break;
                 case "DATA":
-                    s = new Socket(r3Package.clientAddress, 12345);
+                    Map.Entry<String,Integer> entry = new AbstractMap.SimpleEntry<>(r3Package.clientAddress, r3Package.id);
+                    s = pedidos.get(entry);
                     PrintWriter outSocket2 = new PrintWriter(s.getOutputStream());
                     out.println("Pronto para Ligar ao TCP do Client");
                     out.flush();
