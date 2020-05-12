@@ -1,6 +1,7 @@
 import java.io.*;
 import java.net.*;
 import java.util.AbstractMap;
+import java.util.Base64;
 import java.util.Map;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
@@ -44,7 +45,7 @@ public class HandleTCPrequest implements Runnable{
                 {
                     insertOnPedidos(args[2],Integer.parseInt(args[3]));
                     r3Packet = new R3Package(args[0],args[1],-1,-1,args[2],Integer.parseInt(args[3]));
-                    buf = r3Packet.toString().getBytes();
+                    buf = Base64.getEncoder().encode(r3Packet.toString().getBytes());
                     DatagramPacket packet
                             = new DatagramPacket(buf, buf.length, address, 6666);
                     socket.send(packet);
@@ -58,7 +59,7 @@ public class HandleTCPrequest implements Runnable{
                 else if (args.length==4 && args[0].equals("DATA"))
                 {
                     r3Packet = new R3Package(args[0],args[1],-1,-1,args[2],Integer.parseInt(args[3]));
-                    buf = r3Packet.toString().getBytes();
+                    buf = Base64.getEncoder().encode(r3Packet.toString().getBytes());
                     DatagramPacket packet
                             = new DatagramPacket(buf, buf.length, address, 6666);
                     socket.send(packet);

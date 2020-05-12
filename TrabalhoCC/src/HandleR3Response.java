@@ -6,6 +6,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.AbstractMap;
+import java.util.Base64;
 import java.util.Map;
 
 public class HandleR3Response implements Runnable{
@@ -26,7 +27,8 @@ public class HandleR3Response implements Runnable{
     @Override
     public void run() {
         PrintWriter out = new PrintWriter(System.out);
-        String received = new String(packet.getData(), 0, packet.getLength());
+        String receivedEncoded = new String(packet.getData(), 0, packet.getLength());
+        String received = new String(Base64.getDecoder().decode(receivedEncoded));
         R3Package r3Package = new R3Package(received);
         Socket s;
         InetAddress peerAddress;
@@ -47,7 +49,7 @@ public class HandleR3Response implements Runnable{
                     out.println("Resposta a enviar ANONGW peer: " + response);
                     out.flush();
                     s.close();
-                    buf = response.getBytes();
+                    buf = Base64.getEncoder().encode(response.getBytes());
                     peerAddress = packet.getAddress();
                     out.println("Enviado para : " + peerAddress);
                     out.flush();
