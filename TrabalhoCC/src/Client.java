@@ -2,30 +2,24 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.InetAddress;
 import java.net.Socket;
 
 public class Client {
     public static void main(String[] args) throws Exception{
-        Socket s = new Socket(args[0],Integer.parseInt(args[1]));
-        System.out.println("Ligação Estabelecida");
         String line = " ";
-        String response;
+        String own = InetAddress.getLocalHost().getHostAddress();
+        int idPedido=1;
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-        PrintWriter out = new PrintWriter(System.out);
-        BufferedReader inSocket = new BufferedReader((new InputStreamReader(s.getInputStream())));
-        PrintWriter outSocket = new PrintWriter(s.getOutputStream());
         while (line!=null && !line.equals("exit"))
         {
-            out.println("Entrou aqui!");
-            out.flush();
             line = in.readLine();
-            out.println("Teste - "+line);
-            out.flush();
-            outSocket.println(line);
-            outSocket.flush();
-            response=inSocket.readLine();
-            out.println(response);
-            out.flush();
+            line = line+" "+own+" "+idPedido;
+            new Thread(new ClientTCPThread(line,args[0],Integer.parseInt(args[1]))).start();
+            idPedido++;
+            //response=inSocket.readLine();
+            //out.println(response);
+            //out.flush();
         }
     }
 }
