@@ -23,7 +23,7 @@ public class HandleTCPrequest implements Runnable{
     private synchronized void insertOnPedidos(String cliente,int numPedido)
     {
         Map.Entry<String,Integer> entry =
-                new AbstractMap.SimpleEntry<String, Integer>(cliente, numPedido);
+                new AbstractMap.SimpleEntry<>(cliente, numPedido);
         pedidos.put(entry,s);
     }
     @Override
@@ -41,36 +41,17 @@ public class HandleTCPrequest implements Runnable{
                 String [] args = line.split(" ");
                 out.flush();
                 R3Package r3Packet = null;
-                if (args.length==4 && args[0].equals("GET"))
+                if (args.length==4 && args[0].equals("wget"))
                 {
                     insertOnPedidos(args[2],Integer.parseInt(args[3]));
-                    r3Packet = new R3Package(args[0],args[1],-1,-1,args[2],Integer.parseInt(args[3]));
+                    r3Packet = new R3Package("GET",args[1],-1,-1,args[2],Integer.parseInt(args[3]),-1);
                     buf = Base64.getEncoder().encode(r3Packet.toString().getBytes());
                     DatagramPacket packet
                             = new DatagramPacket(buf, buf.length, address, 6666);
                     socket.send(packet);
                     out.println("Envio pacote para o ANONGW peer: "+address);
                     out.flush();
-                    //packet = new DatagramPacket(buf, buf.length);
-                /*socket.receive(packet);
-                System.out.println("Recebeu pacote do 2 ANONGW");
-                r3Packet = new R3Package(new String(packet.getData(),0,packet.getLength()));*/
                 }
-                else if (args.length==4 && args[0].equals("DATA"))
-                {
-                    r3Packet = new R3Package(args[0],args[1],-1,-1,args[2],Integer.parseInt(args[3]));
-                    buf = Base64.getEncoder().encode(r3Packet.toString().getBytes());
-                    DatagramPacket packet
-                            = new DatagramPacket(buf, buf.length, address, 6666);
-                    socket.send(packet);
-                    out.println("Envio pacote para o UDP do ANONGW peer: "+address);
-                    out.flush();
-                }
-            /*if (r3Packet != null);
-            {
-                outCliente.println(r3Packet.data);
-                outCliente.flush();
-            }*/
             }
 
         } catch (Exception e) {

@@ -3,6 +3,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.Base64;
 
 public class ClientTCPThread implements Runnable{
     private String ipAnon;
@@ -30,7 +31,7 @@ public class ClientTCPThread implements Runnable{
             outSocket.println(line);
             outSocket.flush();
             String response = inSocket.readLine();
-            out.println("RESPOSTA: "+response);
+            out.println("RESPOSTA: "+ response);
             out.flush();
             s.close();
         }

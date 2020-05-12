@@ -2,6 +2,7 @@ import java.io.IOException;
 import java.net.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
@@ -14,6 +15,7 @@ public class AnonGW {
     static int ownPort;
     static ArrayList<InetAddress> peers;
     static Map<Map.Entry<String,Integer>,Socket> pedidos;
+    static Map<Integer,Map.Entry<InetAddress,String>> porResponder;
     public static void main(String[] args) {
         try {
             targetServer=args[0];
@@ -22,6 +24,7 @@ public class AnonGW {
             ownPort=Integer.parseInt(args[2]);
             peers=new ArrayList<>();
             pedidos=new HashMap<>();
+            porResponder = new HashMap<>();
             int r=0;
             for (int i=3;i<args.length;i++)
             {
@@ -33,7 +36,9 @@ public class AnonGW {
             System.out.println("Starting TCP Listener...");
             new Thread(new ListenTCP(peers,ownPort,socket,ss,pedidos)).start();
             System.out.println("Starting R3 Listener...");
-            new Thread(new ListenR3(targetServer,targetPort,socket,pedidos)).start();
+            new Thread(new ListenR3(peers,targetServer,targetPort,socket,pedidos,porResponder)).start();
+            System.out.println("Starting NoResponseHandler...");
+            new Thread(new HandleNoResponsesR3(porResponder,socket)).start();
         }
         catch (IOException e)
         {

@@ -6,6 +6,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 
@@ -25,14 +26,14 @@ public class ListenTCP implements Runnable{
     }
     @Override
     public void run() {
-        Random r = new Random();
         try {
             while (true)
             {
                 System.out.println("À espera...");
                 Socket s = ss.accept();
                 System.out.println("Ligou com Cliente");
-                new Thread(new HandleTCPrequest(s,peers.get(r.nextInt()%peers.size()),socket,pedidos)).start();
+                int randomNum = ThreadLocalRandom.current().nextInt(0, peers.size());
+                new Thread(new HandleTCPrequest(s,peers.get(randomNum),socket,pedidos)).start();
             }
         } catch (IOException e) {
             e.printStackTrace();

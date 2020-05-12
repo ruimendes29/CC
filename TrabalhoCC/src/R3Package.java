@@ -7,18 +7,20 @@ public class R3Package {
     public int totalPacotes;
     public String clientAddress;
     public int id;
-    public R3Package(String tipo, String data, int numSeq, int totalPacotes,String clientAddress,int id) {
+    public int udpID;
+    public R3Package(String tipo, String data, int numSeq, int totalPacotes,String clientAddress,int id,int udpID) {
         this.tipo = tipo;
         this.data = data;
         this.numSeq = numSeq;
         this.totalPacotes = totalPacotes;
         this.clientAddress=clientAddress;
         this.id=id;
+        this.udpID=udpID;
     }
 
     @Override
     public String toString() {
-        return tipo+" "+data+" "+numSeq+" "+totalPacotes+" "+clientAddress+" "+id;
+        return tipo+" "+data+" "+numSeq+" "+totalPacotes+" "+clientAddress+" "+id+" "+udpID;
     }
     public R3Package(String s)
     {
@@ -29,5 +31,6 @@ public class R3Package {
         this.totalPacotes=Integer.parseInt(args[3]);
         this.clientAddress=args[4];
         this.id=Integer.parseInt(args[5]);
+        this.udpID=Integer.parseInt(args[6]);
     }
 }
