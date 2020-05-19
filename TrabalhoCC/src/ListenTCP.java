@@ -5,10 +5,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
 
 public class ListenTCP implements Runnable{
     ArrayList<InetAddress> peers;
