@@ -3,9 +3,7 @@ import java.io.PrintWriter;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.util.AbstractMap;
 import java.util.Base64;
-import java.util.List;
 import java.util.Map;
 
 public class HandleNoResponsesR3 implements Runnable{
@@ -37,6 +35,7 @@ public class HandleNoResponsesR3 implements Runnable{
                     }
                     out.println("FIM DESTA!!");
                     out.flush();
+                    out.close();
                 }
             }
         }

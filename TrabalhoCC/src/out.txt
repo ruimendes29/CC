@@ -1,3 +1,0 @@
-À espera de pedido TCP...
-Recebeu este pedido por TCP: wget file2 10.1.1.1 6
-Envio pacote para o ANONGW peer: /10.4.4.2

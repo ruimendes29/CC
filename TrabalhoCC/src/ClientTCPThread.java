@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.InetAddress;
 import java.net.Socket;
 import java.util.Arrays;
 import java.util.Base64;
@@ -10,7 +9,6 @@ public class ClientTCPThread implements Runnable{
     private String ipAnon;
     private int portAnon;
     private String line;
-    private int session;
     public ClientTCPThread(String line, String ipAnon, int portAnon) {
         this.ipAnon = ipAnon;
         this.portAnon = portAnon;
