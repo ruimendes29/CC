@@ -5,10 +5,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.util.AbstractMap;
-import java.util.Base64;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class HandleR3Response implements Runnable{
     String serverAddress;
@@ -87,9 +84,17 @@ public class HandleR3Response implements Runnable{
                     response = inSocket.readLine();
                     int tamanho = 40;
                     int size = (int) Math.ceil(response.length()/(tamanho*1.0)); // Tamanho maximo da string de pacote são 40 bytes
-                    String strings [] = new String[size];
+                    List<String> lista = new ArrayList<>();
+                    for (int start = 0,i=0; start < response.length(); start += tamanho,i++) {
+                        lista.add(response.substring(start, Math.min(response.length(), start + tamanho)));
+                        out.println("String: "+lista.get(i));
+                        out.flush();
+                    }
+                    String [] strings = new String[lista.size()];
                     for (int i=0;i<size;i++)
-                        strings[i]=response.substring(i*tamanho,Math.min((i+1)*tamanho-1,response.length()-1));
+                    {
+                        strings[i]=lista.get(i);
+                    }
                     synchronized (totais){
                     totais.put(entry,strings);} // Adicionada resposta do servidor ao buffer de respostas
                     out.println("Resposta a enviar ANONGW peer: " + response);
@@ -163,13 +168,13 @@ public class HandleR3Response implements Runnable{
                         }
                         porResponder.remove(r3Package.udpID);
                     }
+                    entry = new AbstractMap.SimpleEntry<>(r3Package.clientAddress, r3Package.id);
                     switch (r3Package.data)
                     {
                         case "BEGIN":
-                            entry = new AbstractMap.SimpleEntry<>(r3Package.clientAddress, r3Package.id);
                             synchronized (totais)
                             {
-                                response = "DATA "+"teste"+" "+0+" "+r3Package.totalPacotes+" "+r3Package.clientAddress+" "+r3Package.id+" "+udpID.i;
+                                response = "DATA "+totais.get(entry)[0]+" "+0+" "+r3Package.totalPacotes+" "+r3Package.clientAddress+" "+r3Package.id+" "+udpID.i;
                                 sendToPeer(response,true);
                                 out.println("Enviado 1º DATA");
                                 out.flush();
@@ -182,7 +187,7 @@ public class HandleR3Response implements Runnable{
                         case "DATA":
                         {
                             if (r3Package.numSeq<r3Package.totalPacotes) {
-                            response = "DATA "+r3Package.numSeq+" "+r3Package.numSeq+" "+r3Package.totalPacotes+" "+r3Package.clientAddress+" "+r3Package.id+" "+udpID.i;
+                            response = "DATA "+totais.get(entry)[r3Package.numSeq]+" "+r3Package.numSeq+" "+r3Package.totalPacotes+" "+r3Package.clientAddress+" "+r3Package.id+" "+udpID.i;
                             sendToPeer(response,true);
                             out.println("Enviado DATA "+r3Package.numSeq);
                             out.flush();}
