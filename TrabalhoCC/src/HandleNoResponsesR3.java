@@ -18,9 +18,13 @@ public class HandleNoResponsesR3 implements Runnable{
     @Override
     public void run() {
         try {
-            PrintWriter out = new PrintWriter(new File("non.txt"));
             byte[] buf;
             while (true) {
+                /*
+                Esta thread é responsavel por de um tempo em um tempo percorrer os pedidos
+                que ainda nao obtiveram resposta e reenvialos de forma a que caso uma confirmação se tenha perdido
+                ou o pedido nao tenha chegado ao destino ambos possam ser reenviados
+                 */
                 Thread.sleep(1000);
                 synchronized (pedidos) {
                     for (int chave : pedidos.keySet()) {
@@ -30,12 +34,7 @@ public class HandleNoResponsesR3 implements Runnable{
                         peerAddress = par.getKey();
                         DatagramPacket packet = new DatagramPacket(buf, buf.length, peerAddress, 6666);
                         socket.send(packet);
-                        out.println("ENVIOU PEDIDO QUE NAO TEVE RESPOSTA!! - "+chave);
-                        out.flush();
                     }
-                    out.println("FIM DESTA!!");
-                    out.flush();
-                    out.close();
                 }
             }
         }

@@ -12,11 +12,9 @@ public class Client {
         {
             line = in.readLine();
             line = line+" "+own+" "+idPedido;
+            // Cria uma thread que é mantida ao longo de toda a "vida" do pedido
             new Thread(new ClientTCPThread(line,args[0],Integer.parseInt(args[1]))).start();
             idPedido++;
-            //response=inSocket.readLine();
-            //out.println(response);
-            //out.flush();
         }
     }
 }

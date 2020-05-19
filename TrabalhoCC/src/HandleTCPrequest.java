@@ -35,9 +35,7 @@ public class HandleTCPrequest implements Runnable{
                 out.flush();
                 BufferedReader inCliente = new BufferedReader(new InputStreamReader(s.getInputStream()));
                 line = inCliente.readLine();
-                out.println("Recebeu este pedido por TCP: "+line);
                 String [] args = line.split(" ");
-                out.flush();
                 R3Package r3Packet = null;
                 if (args.length==4 && args[0].equals("wget"))
                 {

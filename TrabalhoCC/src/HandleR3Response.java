@@ -76,6 +76,12 @@ public class HandleR3Response implements Runnable {
             try {
                 switch (r3Package.tipo) {
                     case "GET":
+                        /*
+                        Quando recebe um pedido do tipo GET o anon sabe que este pedido veio de outro anon que recebeu um pedido
+                        TCP de um cliente e por isso estabelece ele mesmo uma ligação TCP com o servidor destino de forma a obter
+                        a resposta pretendida. Depois disso separa os dados recebidos em pacotes de tamanho definido para que estes
+                        possam então ser enviados através de um canal UDP para o peer que lhe fez o pedido e "montados" do outro lado
+                         */
                         entry = new AbstractMap.SimpleEntry<>(r3Package.clientAddress, r3Package.id);
                         s = new Socket(serverAddress, serverPort);
                         String response;
@@ -111,6 +117,10 @@ public class HandleR3Response implements Runnable {
                         out.flush();
                         sendToPeer(response, true);
                         break;
+                        /*
+                        O tipo de pacote END serve para dizer ao anonGW que o recebeu que o peer já enviou tudo o que tinha a enviar
+                        e por isso já pode comunicar ao cliente a resposta que estava a ser montada na estrutura builders
+                         */
                             case "END": // DAR ACK DE UM END
                                 entry = new AbstractMap.SimpleEntry<>(r3Package.clientAddress, r3Package.id);
                                 if (r3Package.totalPacotes == conta(builders.get(entry))) {
@@ -138,6 +148,10 @@ public class HandleR3Response implements Runnable {
                                     pedidos.remove(entry); // RETIRA DOS PEDIDOS
                                 }
                                 break;
+                                /*
+                                Quando o tipo é begin então é adicionada uma entrada na estrutura builders do anon e enviado
+                                um ack begin para o peer a dizer que está pronto para receber dados
+                                 */
                             case "BEGIN": // DAR ACK DE UM BEGIN
                                 String[] build = new String[r3Package.totalPacotes];
                                 entry = new AbstractMap.SimpleEntry<>(r3Package.clientAddress, r3Package.id);
@@ -150,6 +164,10 @@ public class HandleR3Response implements Runnable {
                                 out.println("ENVIADO ACK BEGIN");
                                 out.flush();
                                 break;
+                                /*
+                                O tipo data é para armazenar o que estiver presente no pedido na estrutura builders para posteriormente
+                                ser enviada ao cliente
+                                 */
                             case "DATA": // DAR ACK DE UM DATA
                                 out.println("RECEBEU DATA " + r3Package.numSeq);
                                 out.flush();
@@ -165,6 +183,10 @@ public class HandleR3Response implements Runnable {
                                 out.println("ENVIADO ACK DATA" + (r3Package.numSeq + 1));
                                 out.flush();
                                 break;
+                                /*
+                                No caso de o pacote recebido ser um ack então envia o pacote correspondente ao numSeq presente no
+                                pacote ack. Se for o ack de um end então já se sabe o pacote foi recebido com sucesso pelo peer.
+                                 */
                             case "ACK":
                                 out.println("RECEBEU ACK DE UDPID" + r3Package.udpID);
                                 R3Package p = new R3Package(porResponder.get(r3Package.udpID).getValue());

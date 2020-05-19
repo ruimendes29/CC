@@ -19,18 +19,15 @@ public class ClientTCPThread implements Runnable{
     public void run() {
         try {
             Socket s = new Socket(ipAnon, portAnon);
-            System.out.println("Ligação Estabelecida");
             PrintWriter out = new PrintWriter(System.out);
             BufferedReader inSocket = new BufferedReader(new InputStreamReader(s.getInputStream()));
             PrintWriter outSocket = new PrintWriter(s.getOutputStream());
-            out.println("Entrou aqui!");
-            out.flush();
-            out.println("Teste - " + line);
-            out.flush();
+            // Envia para o anon o pedido feito pelo cliente
             outSocket.println(line);
             outSocket.flush();
+            // Resposta dada pelo anon é processada
             String response = inSocket.readLine();
-            out.println("RESPOSTA: "+ new String (Base64.getDecoder().decode(response)));
+            out.println("RESPOSTA: \n"+ new String (Base64.getDecoder().decode(response)));
             out.flush();
             s.close();
         }

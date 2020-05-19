@@ -30,10 +30,13 @@ public class AnonGW {
             DatagramSocket socket = new DatagramSocket(6666);
             ServerSocket ss = new ServerSocket(ownPort);
             System.out.println("Starting TCP Listener...");
+            // Componente responsável por receber pedidos TCP
             new Thread(new ListenTCP(peers,ownPort,socket,ss,pedidos)).start();
             System.out.println("Starting R3 Listener...");
+            // Componente responsável por receber pedidos R3
             new Thread(new ListenR3(peers,targetServer,targetPort,socket,pedidos,porResponder)).start();
             System.out.println("Starting NoResponseHandler...");
+            // Componente responsável por lidar com pedidos que não obtiveram ainda resposta
             new Thread(new HandleNoResponsesR3(porResponder,socket)).start();
         }
         catch (IOException e)

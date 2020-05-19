@@ -1,3 +1,2 @@
 À espera de pedido TCP...
-Recebeu este pedido por TCP: wget sdlifj 10.1.1.1 4
 Envio pacote para o ANONGW peer: /10.4.4.3
