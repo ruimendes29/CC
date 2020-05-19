@@ -5,9 +5,8 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.util.AbstractMap;
-import java.util.Base64;
-import java.util.Map;
+import java.util.*;
+
 
 public class HandleR3Response implements Runnable {
     String serverAddress;
@@ -71,22 +70,53 @@ public class HandleR3Response implements Runnable {
         System.out.println(received);
         R3Package r3Package = new R3Package(received,true);
         Socket s;
-        Map.Entry<String, Integer> entry;
-        
-        System.out.println("got a pack");
-        if (r3Package.verifyKey()) {
-        System.out.println("was valid"+r3Package.toString());
-            try {
-                switch (r3Package.tipo) {
-                    case "GET":
-                        entry = new AbstractMap.SimpleEntry<>(r3Package.clientAddress, r3Package.id);
-                        s = new Socket(serverAddress, serverPort);
-                        String response;
-                        BufferedReader inSocket = new BufferedReader((new InputStreamReader(s.getInputStream())));
-                        PrintWriter outSocket = new PrintWriter(s.getOutputStream());
-                        out.println("Entrou no ANONGW peer!");
+        String resposta="";
+        Map.Entry<String,Integer> entry;
+        try {
+            switch (r3Package.tipo) {
+                case "GET":
+                    entry = new AbstractMap.SimpleEntry<>(r3Package.clientAddress, r3Package.id);
+                    s = new Socket(serverAddress, serverPort);
+                    String response;
+                    BufferedReader inSocket = new BufferedReader((new InputStreamReader(s.getInputStream())));
+                    PrintWriter outSocket = new PrintWriter(s.getOutputStream());
+                    out.println("Entrou no ANONGW peer!");
+                    out.flush();
+                    out.println("String Recebida:" + r3Package.toString());
+                    out.flush();
+                    outSocket.println(r3Package.toString());
+                    outSocket.flush();
+                    response = inSocket.readLine();
+                    int tamanho = 40;
+                    int size = (int) Math.ceil(response.length()/(tamanho*1.0)); // Tamanho maximo da string de pacote são 40 bytes
+                    List<String> lista = new ArrayList<>();
+                    for (int start = 0,i=0; start < response.length(); start += tamanho,i++) {
+                        lista.add(response.substring(start, Math.min(response.length(), start + tamanho)));
+                        out.println("String: "+lista.get(i));
                         out.flush();
-                        out.println("String Recebida:" + r3Package.toString());
+                    }
+                    String [] strings = new String[lista.size()];
+                    for (int i=0;i<size;i++)
+                    {
+                        strings[i]=lista.get(i);
+                    }
+                    synchronized (totais){
+                    totais.put(entry,strings);} // Adicionada resposta do servidor ao buffer de respostas
+                    out.println("Resposta a enviar ANONGW peer: " + response);
+                    out.flush();
+                    s.close();
+                    response = "BEGIN "+"MSG"+" "+"0 "+size+" "+r3Package.clientAddress+" "+r3Package.id+" "+udpID.i;
+                    out.println("Enviado BEGIN");
+                    out.flush();
+                    sendToPeer(response,true);
+                    break;
+                case "END": //DAR ACK DE UM END
+                    entry = new AbstractMap.SimpleEntry<>(r3Package.clientAddress, r3Package.id);
+                    if (r3Package.totalPacotes == conta(builders.get(entry))) {
+                        //SEND ACK
+                        response="ACK "+"END"+" 0 "+r3Package.totalPacotes+" "+r3Package.clientAddress +" "+r3Package.id+" "+r3Package.udpID;
+                        sendToPeer(response,false);
+                        out.println("ENVIADO ACK END");
                         out.flush();
                         outSocket.println(r3Package.toString());
                         outSocket.flush();
@@ -178,36 +208,35 @@ public class HandleR3Response implements Runnable {
                             }
                             porResponder.remove(r3Package.udpID);
                         }
-                        switch (r3Package.data) {
-                            case "BEGIN":
-                                entry = new AbstractMap.SimpleEntry<>(r3Package.clientAddress, r3Package.id);
-                                synchronized (totais) {
-                                    response = "DATA " + "teste" + " " + 0 + " " + r3Package.totalPacotes + " "
-                                            + r3Package.clientAddress + " " + r3Package.id + " " + udpID.i;
-                                    sendToPeer(response, true);
-                                    out.println("Enviado 1º DATA");
-                                    out.flush();
-                                }
-                                break;
-                            case "END":
-                                out.println("PACOTE ENVIADO COM SUCESSO!");
+                    }
+                    entry = new AbstractMap.SimpleEntry<>(r3Package.clientAddress, r3Package.id);
+                    switch (r3Package.data)
+                    {
+                        case "BEGIN":
+                            synchronized (totais)
+                            {
+                                response = "DATA "+totais.get(entry)[0]+" "+0+" "+r3Package.totalPacotes+" "+r3Package.clientAddress+" "+r3Package.id+" "+udpID.i;
+                                sendToPeer(response,true);
+                                out.println("Enviado 1º DATA");
                                 out.flush();
-                                break;
-                            case "DATA": {
-                                if (r3Package.numSeq < r3Package.totalPacotes) {
-                                    response = "DATA " + r3Package.numSeq + " " + r3Package.numSeq + " "
-                                            + r3Package.totalPacotes + " " + r3Package.clientAddress + " "
-                                            + r3Package.id + " " + udpID.i;
-                                    sendToPeer(response, true);
-                                    out.println("Enviado DATA " + r3Package.numSeq);
-                                    out.flush();
-                                } else {
-                                    response = "END " + "0" + " " + r3Package.numSeq + " " + r3Package.totalPacotes
-                                            + " " + r3Package.clientAddress + " " + r3Package.id + " " + udpID.i;
-                                    sendToPeer(response, true);
-                                    out.println("Enviado END " + r3Package.numSeq);
-                                    out.flush();
-                                }
+                            }
+                            break;
+                        case "END":
+                            out.println("PACOTE ENVIADO COM SUCESSO!");
+                            out.flush();
+                            break;
+                        case "DATA":
+                        {
+                            if (r3Package.numSeq<r3Package.totalPacotes) {
+                            response = "DATA "+totais.get(entry)[r3Package.numSeq]+" "+r3Package.numSeq+" "+r3Package.totalPacotes+" "+r3Package.clientAddress+" "+r3Package.id+" "+udpID.i;
+                            sendToPeer(response,true);
+                            out.println("Enviado DATA "+r3Package.numSeq);
+                            out.flush();}
+                            else {
+                                response = "END "+"0"+" "+r3Package.numSeq+" "+r3Package.totalPacotes+" "+r3Package.clientAddress+" "+r3Package.id+" "+udpID.i;
+                                sendToPeer(response,true);
+                                out.println("Enviado END "+r3Package.numSeq);
+                                out.flush();}
                             }
                         }
 
