@@ -32,7 +32,6 @@ public class ServerWorker implements Runnable{
                     }
                     catch (IOException e)
                     {
-                        System.out.println("Deu bosta");
                         String content = "O ficheiro que está a tentar aceder não existe na diretoria /etc!!";
                         String coded = Base64.getEncoder().encodeToString(content.getBytes());
                         outCliente.println(coded);
