@@ -3,8 +3,6 @@ import java.net.*;
 import java.util.AbstractMap;
 import java.util.Base64;
 import java.util.Map;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
 
 public class HandleTCPrequest implements Runnable{
     private Socket s;
