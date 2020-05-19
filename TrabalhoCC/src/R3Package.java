@@ -48,7 +48,6 @@ public class R3Package {
 
     public R3Package(String s)
     {
-        System.out.println("ola");
         String [] args=s.split(" ");
         this.tipo=args[0];
         this.data=args[1];

@@ -97,10 +97,8 @@ public class HandleR3Response implements Runnable {
                         int tamanho = 40;
                         int size = (int) Math.ceil(response.length() / (tamanho * 1.0)); // Tamanho maximo da string de pacote são 40 bytes
                         List<String> lista = new ArrayList<>();
-                        for (int start = 0, i = 0; start < response.length(); start += tamanho, i++) {
+                        for (int start = 0; start < response.length(); start += tamanho) {
                             lista.add(response.substring(start, Math.min(response.length(), start + tamanho)));
-                            out.println("String: " + lista.get(i));
-                            out.flush();
                         }
                         String[] strings = new String[lista.size()];
                         for (int i = 0; i < size; i++) {
