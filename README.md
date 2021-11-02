@@ -1,2 +1,2 @@
 # CC
-oiasjdaosijdComunicação de Computadores
+Comunicação de Computadores
